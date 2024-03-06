@@ -10,16 +10,11 @@ jobs:
   check-env-log-file:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
       - uses: actions/checkout@v3
 
-      # Set up Python 3.x environment
       - name: Set up Python
         uses: actions/setup-python@v4
-        with:
-          python-version: '3.x' # Replace '3.x' with a specific version if required
 
-      # Add a step to check for env.log in the root directory
       - name: Check for env.log file
         run: |
           if [ ! -f env.log ]; then
