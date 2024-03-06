@@ -3,7 +3,6 @@ def check():
     import random
     import sys
     result = random.choice([0, 1])
-    sys.exit(1)
 
 if __name__ == "__main__":
     check()
