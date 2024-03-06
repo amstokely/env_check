@@ -19,11 +19,6 @@ jobs:
           python-version: 3.9
 
       # Add a step to check for env.log in the root directory
-      - name: Check for env.log file
+      - name: Check python package versions
         run: |
-          if [ ! -f env.log ]; then
-            echo "env.log file is missing in the root directory."
-            exit 1
-          else
-            echo "env.log file found."
-          fi
+          python check.py
