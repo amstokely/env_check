@@ -1,6 +1,5 @@
 name: Check env.log Presence
 
-# This workflow triggers on push events to the master branch.
 on:
   push:
     branches:
@@ -10,15 +9,21 @@ jobs:
   check-env-log-file:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      # Checks-out your repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
+
+      # Python 3.10 setup
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.10
 
       # Add a step to check for env.log in the root directory
       - name: Check for env.log file
         run: |
           if [ ! -f env.log ]; then
             echo "env.log file is missing in the root directory."
-            exit 1 # Causes the workflow to fail if env.log is not found
+            exit 1
           else
             echo "env.log file found."
           fi
