@@ -1,9 +1,7 @@
 name: Check env.log Presence and Archive .env_logs
 
 on:
-  push:
-    branches:
-      - master
+  workflow_call:
 
 jobs:
   check-env-log-file:
@@ -34,12 +32,3 @@ jobs:
         with:
           name: env_logs_archive
           path: .env_logs_archive.tar
-
-      # Delete the .env_logs directory
-      - name: Delete .env_logs directory
-        run: |
-          rm -rf .env_logs
-          git config --global user.email "andystokely@gmail.com"
-          git config --global user.name "Andy Stokely"
-          git rm -r .env_logs
-          git commit -m "Remove archived directory .env_logs"
