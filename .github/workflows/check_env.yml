@@ -12,6 +12,11 @@ jobs:
   check-file-existence:
     runs-on: ubuntu-latest
     steps:
+      - name : Checkout repository
+        uses: actions/checkout@v2
+        with:
+          repository: amstokely/env_check
+          ref: master
       - name: Execute Python script to check file existence
         run: python check.py "${{ inputs.file_path }}"
         env:
