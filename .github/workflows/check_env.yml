@@ -1,23 +1,47 @@
 # .github/workflows/reusable-workflow.yml
-name: Reusable Workflow
+name: env_check
 
 on:
   workflow_call:
     inputs:
+      other_repo:
+        required: true
+        description: "Owner/Repo containing the file"
+        type: string
+      other_repo_ref:
+        required: false
+        description: "Branch, tag, or commit SHA in the other repository"
+        default: "main"
+        type: string
       file_path:
         required: true
+        description: "Path to the file in the other repository"
+        type: string
+      access_token:
+        required: true
+        description: "Token with access to the other repository"
         type: string
 
 jobs:
-  check-file-existence:
+  process-file:
     runs-on: ubuntu-latest
     steps:
-      - name : Checkout repository
+      # Checkout the reusable workflow's repository to access the script
+      - name: Checkout this repository
         uses: actions/checkout@v2
         with:
-          repository: amstokely/env_check
-          ref: master
-      - name: Execute Python script to check file existence
-        run: python check.py "${{ inputs.file_path }}"
-        env:
-          FILE_PATH: ${{ inputs.file_path }}
+          path: "this_repo"
+
+      # Optionally checkout the other repository to access the file
+      - name: Checkout other repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ inputs.other_repo }}
+          ref: ${{ inputs.other_repo_ref }}
+          token: ${{ inputs.access_token }}
+          path: "other_repo"
+
+      # Add a step to run your script and process the file from the other repository
+      - name: Run script to process the file
+        run: |
+          python this_repo/check.py other_repo/${{ inputs.file_path }}
