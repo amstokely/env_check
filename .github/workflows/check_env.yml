@@ -7,8 +7,11 @@ jobs:
   check-env-log-file:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          repository: amstokely/env_check
+          ref: master
 
       # Python 3.9 setup
       - name: Set up Python 3.9
