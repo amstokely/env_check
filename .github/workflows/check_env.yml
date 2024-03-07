@@ -1,37 +1,18 @@
-name: Check env.log Presence and Archive .env_logs
+# .github/workflows/reusable-workflow.yml
+name: Reusable Workflow
 
 on:
   workflow_call:
+    inputs:
+      file_path:
+        required: true
+        type: string
 
 jobs:
-  check-env-log-file:
+  check-file-existence:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          repository: amstokely/env_check
-          ref: master
-
-      # Python 3.9 setup
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.9
-
-      # Add a step to check for env.log in the root directory
-      - name: Check python package versions
-        run: |
-          python check.py
-
-      # Add a step to archive .env_logs directory
-      - name: Archive .env_logs directory
-        run: |
-          git archive --format=tar --output=.env_logs_archive.tar HEAD:.env_logs
-
-      # Upload the archive as an artifact
-      - name: Upload .env_logs archive
-        uses: actions/upload-artifact@v3
-        with:
-          name: env_logs_archive
-          path: .env_logs_archive.tar
+      - name: Execute Python script to check file existence
+        run: python check.py "${{ inputs.file_path }}"
+        env:
+          FILE_PATH: ${{ inputs.file_path }}
