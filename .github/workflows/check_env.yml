@@ -39,5 +39,7 @@ jobs:
       - name: Delete .env_logs directory
         run: |
           rm -rf .env_logs
+          git config --global user.email "andystokely@gmail.com"
+          git config --global user.name "Andy Stokely"
           git rm -r .env_logs
           git commit -m "Remove archived directory .env_logs"
